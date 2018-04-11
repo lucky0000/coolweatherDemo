@@ -9,6 +9,7 @@ import com.coolweather.android.db.City;
 import com.coolweather.android.db.County;
 import com.coolweather.android.db.Province;
 import com.coolweather.android.gson.CityModel;
+import com.coolweather.android.gson.Weather;
 
 
 import java.util.ArrayList;
@@ -58,5 +59,11 @@ public class Utility {
             p.save();
         }
         return true;
+    }
+
+
+    public static Weather handleWeatherResponse(String response) {
+        Weather weather=JSON.parseObject(response, Weather.class);
+        return weather;
     }
 }
