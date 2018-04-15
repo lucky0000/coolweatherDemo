@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,7 @@ public class WeatherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //头栏背景
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
@@ -89,17 +91,36 @@ public class WeatherActivity extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather", null);
-        if (weatherString != null) {
+        if (!TextUtils.isEmpty(weatherString)) {
             //有缓存
             Weather weather = Utility.handleWeatherResponse(weatherString);
+
             weatherId = weather.getHeWeather().get(0).getBasic().getId();
             showWeatherInfo(weather.getHeWeather().get(0));
+//
+//            if (weather != null) {
+//                weatherId = weather.getHeWeather().get(0).getBasic().getId();
+//                showWeatherInfo(weather.getHeWeather().get(0));
+//            }
+//            else
+//            {
+////                Log.d(TAG, "onCreate: 有缓存但weather=null");
+//                weatherId = getIntent().getStringExtra("weather_id");
+//                if (TextUtils.isEmpty(weatherId)) {
+//                    Intent intent = new Intent(this, MainActivity.class);
+//                    startActivity(intent);
+//                }
+//
+//                weatherLayout.setVisibility(View.INVISIBLE);
+//                requestWeather(weatherId);
+//            }
         } else {
             //无缓存
             weatherId = getIntent().getStringExtra("weather_id");
-            if (weatherId == null) {
+            if (TextUtils.isEmpty(weatherId)) {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                return;
             }
 
             weatherLayout.setVisibility(View.INVISIBLE);
@@ -124,6 +145,7 @@ public class WeatherActivity extends AppCompatActivity {
 //        navButton.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
         titleCity.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
+        //更新服务
         Intent intent=new Intent(this, AutoUpdateService.class);
         startService(intent);
     }

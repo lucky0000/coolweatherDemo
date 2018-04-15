@@ -67,33 +67,7 @@ public class ChooseAreaFragmentFragment extends Fragment {
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
 
-//        listView.setOnItemClickListener((parent, v, position, id) -> {
-//            if (currentLevel == LEVEL_PROVINCE) {
-//                selectedProvince = provinceList.get(position);
-//                queryCities();
-//            } else if (currentLevel == LEVEL_CITY) {
-//                selectedCity = cityList.get(position);
-//                queryCounties();
-//            }
-//        });
-//
-//        btnBack.setOnClickListener(v -> {
-//            if (currentLevel == LEVEL_COUNTY) {
-//                queryCities();
-//            } else if (currentLevel == LEVEL_COUNTY) {
-//                queryProvinces();
-//            }
-//
-//        });
-//
-//        queryProvinces();
-
-
-//        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dataList);
-//        listView.setAdapter(adapter);
-
         return view;
-
     }
 
     @Override
@@ -134,7 +108,6 @@ public class ChooseAreaFragmentFragment extends Fragment {
             } else if (currentLevel == LEVEL_CITY) {
                 queryProvinces();
             }
-
         });
 
         queryProvinces();
